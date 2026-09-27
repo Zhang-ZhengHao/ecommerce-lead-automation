@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.mypy_cache/
+*.xlsx
+*.xls
+!tests/fixtures/golden.xlsx
+.install.lock
+pydeps/
+.asteam-product.log
+.streamlit/secrets.toml

@@ -1,0 +1,9 @@
+[global]
+developmentMode = false
+
+[server]
+maxUploadSize = 10
+fileWatcherType = "none"
+
+[browser]
+gatherUsageStats = false
