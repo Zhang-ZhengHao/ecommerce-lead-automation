@@ -3,6 +3,12 @@ __pycache__/
 .pytest_cache/
 .venv/
 .mypy_cache/
+.env
+.env.*
+!.env.example
+customer-data/
+private-data/
+exports/
 *.xlsx
 *.xls
 !tests/fixtures/golden.xlsx
