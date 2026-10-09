@@ -140,4 +140,6 @@ tests/fixtures/           synthetic golden workbook and provenance metadata
 
 ## License
 
-Released under the [MIT License](LICENSE). Third-party dependency notices are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Released under the [MIT License](LICENSE). Release history is recorded in the
+[changelog](CHANGELOG.md), and third-party dependency notices are listed in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
