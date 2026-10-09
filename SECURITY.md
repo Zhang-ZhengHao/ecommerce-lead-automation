@@ -13,6 +13,9 @@ public demo mode is offline and uses synthetic rows.
 - Keep `COMMERCE_LEAD_ENABLE_REAL_AI` disabled unless the deployment is controlled
   and the configured model provider's retention, residency, and billing rules
   have been reviewed.
+- Configure `OPENAI_BASE_URL` as a credential-free HTTP(S) URL. Use HTTPS outside
+  a trusted local environment, and treat the endpoint as a deployment trust
+  decision even after its URL format passes validation.
 - Store `OPENAI_API_KEY` only in the environment or a secret manager. Never
   commit it, put it in a spreadsheet, or paste it into an issue.
 - Treat every generated reply as a draft. The application blocks unsafe final
