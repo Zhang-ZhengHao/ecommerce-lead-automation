@@ -1,5 +1,8 @@
 # E-commerce Lead Automation
 
+[![Verify](https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/actions/workflows/verify.yml)
+[![Release](https://img.shields.io/github/v/release/Zhang-ZhengHao/ecommerce-lead-automation?display_name=tag&sort=semver)](https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/releases/latest)
+
 **English** | [简体中文](README.zh-CN.md)
 
 Turn a redacted customer-message spreadsheet into a reviewable lead queue. This Streamlit application classifies messages, drafts replies and follow-up actions, lets a person edit and confirm final text, and exports auditable workbooks.
@@ -7,6 +10,21 @@ Turn a redacted customer-message spreadsheet into a reviewable lead queue. This 
 The default demo is deterministic and runs without an API key. An OpenAI-compatible endpoint is optional and remains disabled until both an explicit feature flag and a key are configured.
 
 ![Processed lead queue](screenshots/result.png)
+
+## Engineering evidence
+
+- The unit and regression suite covers classification, spreadsheet import and
+  export, human confirmation, sendable-row isolation, usage limits, and the
+  synthetic golden fixture.
+- [GitHub Actions](https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/actions/workflows/verify.yml)
+  verifies Python 3.10 and 3.12, compiles the Python sources, and checks the
+  installed dependency graph.
+- The golden workbook records expectation provenance and deliberately excludes
+  unverified examples from classification-accuracy assertions.
+- The runtime footer exposes both the semantic application version and the
+  process-captured build SHA, making stale deployments visible.
+- The default workflow remains offline and requires explicit human confirmation
+  before a row can enter the separately generated sendable workbook.
 
 ## Features
 
@@ -26,7 +44,7 @@ The default demo is deterministic and runs without an API key. An OpenAI-compati
 - Streamlit 1.64
 - pandas 2.2.3
 - openpyxl 3.1.5
-- pytest 8 for the test suite
+- pytest 9.0.3+ for the test suite
 
 The optional model client uses Python's standard-library HTTP client against an OpenAI-compatible chat-completions endpoint.
 
@@ -96,6 +114,7 @@ PYTHONPATH=. python -m pytest -q tests/test_golden_fixture.py
 
 - Demo mode does not call an external model. Uploaded tables and reply settings are held in the current Streamlit session; this repository contains no customer database or task-history store.
 - Model mode sends message content to the configured endpoint. Remove names, phone numbers, order details, credentials, payment data, and other unnecessary personal information before upload.
+- `OPENAI_BASE_URL` must be a credential-free HTTP(S) URL without a query or fragment. Use HTTPS outside a trusted local environment; URL validation does not make an arbitrary third-party endpoint trustworthy.
 - Keep `OPENAI_API_KEY` in environment-based secret storage. `.env` files, private-data directories, customer-data directories, exports, and Streamlit secrets are ignored by Git.
 - Generated replies are drafts, not approved customer communications. The sendable label requires a person to save and confirm a final reply, followed by an export-time policy check.
 - Workbook exports escape cells beginning with `=`, `+`, `-`, or `@` to reduce formula-injection risk.

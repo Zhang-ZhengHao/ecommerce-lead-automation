@@ -24,6 +24,24 @@ def _golden_meta():
     return json.loads(META.read_text(encoding="utf-8"))
 
 
+def test_golden_fixture_instructions_match_current_product_and_export_names():
+    workbook = load_workbook(FIXTURE, read_only=True, data_only=False)
+    try:
+        instructions = "\n".join(
+            str(cell.value)
+            for row in workbook["使用说明"].iter_rows()
+            for cell in row
+            if cell.value is not None
+        )
+    finally:
+        workbook.close()
+
+    assert "E-commerce Lead Automation" in instructions
+    assert "SmartSheet AI" not in instructions
+    assert "下载全部结果（草稿）" in instructions
+    assert "下载完整结果" not in instructions
+
+
 def test_golden_metadata_declares_expectation_provenance_and_coverage():
     meta = _golden_meta()
     fixture_ids = set(EXPECTED_IDS)

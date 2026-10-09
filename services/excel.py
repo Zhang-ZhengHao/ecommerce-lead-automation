@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from io import BytesIO
 from numbers import Integral
 from pathlib import Path
@@ -53,6 +54,12 @@ _RESULT_COLUMN_SUFFIX = re.compile(r"（AI(?:\d+)?）$")
 
 class SpreadsheetError(ValueError):
     """A user-facing spreadsheet validation or parsing error."""
+
+
+def content_signature(payload: bytes) -> str:
+    """Return a non-secret SHA-256 identifier for session upload deduplication."""
+
+    return hashlib.sha256(payload).hexdigest()
 
 
 def _normalise_columns(frame: pd.DataFrame) -> pd.DataFrame:

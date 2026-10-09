@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import os
 
 import pandas as pd
@@ -17,6 +16,7 @@ from services.excel import (
     MAX_ROWS,
     SpreadsheetError,
     build_demo_dataframe,
+    content_signature,
     detect_message_column,
     export_sendable_workbook,
     export_result_workbook,
@@ -64,7 +64,7 @@ from services.usage import (
     session_usage_message,
     usage_status,
 )
-from services.version import BUILD_SHA
+from services.version import BUILD_SHA, format_release_identity
 
 
 def _env_flag(name: str) -> bool:
@@ -85,10 +85,13 @@ def _display_value(value: object) -> str:
 
 
 def _render_footer() -> None:
-    """Show the process-captured build id on every reachable page."""
+    """Show the release version and process-captured build on every page."""
 
     st.divider()
-    st.caption(f"版本 {BUILD_SHA} · 运行时版本以本次进程启动时捕获的提交为准")
+    st.caption(
+        f"{format_release_identity(BUILD_SHA)} · "
+        "运行时 build 以本次进程启动时捕获的提交为准"
+    )
 
 
 st.set_page_config(
@@ -151,7 +154,7 @@ def _initialise_state() -> None:
 
 
 def _load_source(payload: bytes, filename: str) -> None:
-    signature = hashlib.sha1(payload).hexdigest()
+    signature = content_signature(payload)
     if signature == st.session_state.get("source_signature"):
         return
     if st.session_state.get("processing_mode") == "真实 AI":
