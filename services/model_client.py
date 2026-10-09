@@ -6,6 +6,7 @@ import os
 import re
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from typing import Any
 
@@ -23,6 +24,30 @@ MAX_REPLY_CHARS = 2_000
 
 class ModelClientError(RuntimeError):
     """A safe, user-facing model client error."""
+
+
+def _normalize_base_url(value: object) -> str:
+    """Accept an operator-controlled HTTP(S) endpoint without URL credentials."""
+
+    text = str(value or "").strip().rstrip("/")
+    try:
+        parsed = urllib.parse.urlsplit(text)
+        valid = (
+            parsed.scheme.lower() in {"http", "https"}
+            and bool(parsed.netloc)
+            and bool(parsed.hostname)
+            and parsed.username is None
+            and parsed.password is None
+            and not parsed.query
+            and not parsed.fragment
+        )
+    except ValueError:
+        valid = False
+    if not valid:
+        raise ModelClientError(
+            "模型服务地址必须是无内嵌凭据、无查询参数的 http/https URL。"
+        )
+    return text
 
 
 def _escape_prompt_data(value: object) -> str:
@@ -139,7 +164,9 @@ class OpenAICompatibleClassifier:
         profile: ReplyProfile | None = None,
     ) -> None:
         self.api_key = api_key or os.getenv("OPENAI_API_KEY", "").strip()
-        self.base_url = (base_url or os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
+        self.base_url = _normalize_base_url(
+            base_url or os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        )
         self.model = model or os.getenv("OPENAI_MODEL", "gpt-4o-mini")
         self.timeout = timeout
         self.max_attempts = max(1, max_attempts)
@@ -186,7 +213,11 @@ class OpenAICompatibleClassifier:
         last_error: Exception | None = None
         for attempt in range(self.max_attempts):
             try:
-                with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                # The operator-controlled base URL is restricted to HTTP(S)
+                # without embedded credentials by ``_normalize_base_url``.
+                with urllib.request.urlopen(  # nosec B310
+                    request, timeout=self.timeout
+                ) as response:
                     raw_body = response.read(MAX_RESPONSE_BYTES + 1)
                 if len(raw_body) > MAX_RESPONSE_BYTES:
                     raise ModelClientError("模型响应过大，已停止处理。")

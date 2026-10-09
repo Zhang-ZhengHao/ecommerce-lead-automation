@@ -97,6 +97,9 @@ pip install -r requirements-dev.txt
 PYTHONPATH=. pytest -q tests
 ```
 
+开发依赖使用 pytest 9.0.3 或更高的 9.x 版本；GitHub Actions 会在 Python
+3.10 和 3.12 上运行同一套检查。
+
 ## 回归验证
 
 仓库内的 `tests/fixtures/golden.xlsx` 是一份脱敏合成的 15 行回归样本，覆盖询价、代理合作、低意向、售后、空留言和公式样式文本。配套的 `tests/fixtures/golden.meta.json` 记录期望值来源（当前为作者先验 `author_prior`）、最后人工复核日期，以及 verified/unverified 样例；其中 `expectation_source_by_id` 明确把 `T01`、`T04`、`T08` 标为 `unverified`。这三条分类尚未经过客户语料校准，测试只检查它们的行数、字段格式和处理/回复状态；只有 verified 样例参与分类回归断言。这不是业务准确率承诺，客户提供标注样例后应重新校准基线。`tests/test_golden_fixture.py` 还固定验证行号和导出安全边界；它不锁死 AI 自然语言文案。修改分类规则或导出流程后，应先运行：
@@ -113,7 +116,7 @@ PYTHONPATH=. pytest -q tests/test_golden_fixture.py
 
 内置禁词初稿位于 `services/policy_defaults.py`，页面可展开查看。默认标签和禁词都是接单前的校准起点，不代表已经针对某家店铺完成校准，也不是任何平台的完整规则库。
 
-页面页脚会显示进程启动时捕获的短提交 SHA；演示前先与 `git rev-parse --short HEAD` 对照，避免托管实例仍在运行旧代码。
+页面页脚会同时显示应用语义版本和进程启动时捕获的短提交 SHA；演示前先与 `git rev-parse --short HEAD` 对照，避免托管实例仍在运行旧代码。
 
 完整草稿结果导出为四个工作表：`全部结果`、`高意向`、`待复核`、`使用说明`，并带有“原始行号”和“导出用途”水印。单独的“可发送”导出只包含处理成功、人工标记“已确认”且在导出时再次通过安全检查的行。所有导出都会转义以 `=`, `+`, `-`, `@` 开头的单元格和表头，避免 Excel 公式注入；不会导出 index、row_id 或 API key 等内部字段。
 
@@ -143,6 +146,7 @@ export OPENAI_MODEL="gpt-4o-mini"                   # 可选
 - 真实 AI 只有在同时设置 `COMMERCE_LEAD_ENABLE_REAL_AI=true` 和 `OPENAI_API_KEY` 时才可选；页面会显示单批次/单会话行数护栏和外部模型费用提示。
 - 产品当前没有登录、权限和历史任务；上传内容只保存在当前会话内，服务不会主动长期保存文件。若要把真实 AI 开关放到公网，建议先加登录或放在受控内网。
 - 真实 AI 模式会把留言发送到你配置的 OpenAI 兼容服务，并可能产生 API 费用；请先脱敏，不要上传密码、身份证号、支付信息或其他不必要的敏感数据。
+- `OPENAI_BASE_URL` 只接受不含内嵌凭据、查询参数或片段的 HTTP(S) 地址；除受信任的本地环境外应使用 HTTPS。通过格式校验不代表任意第三方地址都可信。
 - 演示模式完全离线，只用于展示流程，不代表真实模型效果。
 
 ## 客户交付边界

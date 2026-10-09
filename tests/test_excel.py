@@ -1,3 +1,4 @@
+import hashlib
 from io import BytesIO
 
 from openpyxl import load_workbook
@@ -10,12 +11,19 @@ from services.excel import (
     SpreadsheetError,
     build_template_dataframe,
     build_demo_dataframe,
+    content_signature,
     detect_message_column,
     export_result_workbook,
     export_template_xlsx,
     export_xlsx,
     read_table,
 )
+
+
+def test_content_signature_uses_sha256_for_session_deduplication():
+    payload = b"synthetic upload"
+
+    assert content_signature(payload) == hashlib.sha256(payload).hexdigest()
 
 
 def test_read_csv_supports_gb18030_and_preserves_columns():
