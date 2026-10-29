@@ -178,6 +178,12 @@ examples/demo.csv
 tests/
 ```
 
+## 项目咨询
+
+如需按你的工作流程做小范围定制，请从[当前服务与项目咨询](https://github.com/Zhang-ZhengHao#work-with-me--项目合作)开始。
+
+GitHub 咨询需要登录，提交后内容公开；请只使用虚构场景。私密业务细节、范围和报价在原接单平台确认。
+
 ## English summary
 
 E-commerce Lead Automation turns customer-message spreadsheets into an auditable e-commerce lead queue. Upload an XLSX/CSV file, choose an industry preset, process it offline with deterministic rules (or explicitly enable an OpenAI-compatible endpoint), review the draft, set a session-only funnel stage, edit and confirm the final reply, then download a draft or sendable workbook. `客户回复` is a draft; `最终回复` stays empty until a person confirms it. The sendable export performs a safety recheck and includes only successful, confirmed rows. Demo contacts use synthetic IDs, and real AI calls may incur cost and send data to the configured service.
