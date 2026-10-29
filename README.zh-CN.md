@@ -47,7 +47,7 @@ PORT=8501 bash start.sh
 
 ### Windows PowerShell
 
-项目要求 Python 3.10 或更高版本，Windows 推荐 Python 3.11/3.12。Windows 不使用 `start.sh`、`source` 或 `python3`。在项目目录打开 PowerShell：
+项目要求 Python 3.11 或更高版本，Windows 推荐 Python 3.11/3.12。Windows 不使用 `start.sh`、`source` 或 `python3`。在项目目录打开 PowerShell：
 
 ```powershell
 py -3.12 -m venv .venv
@@ -98,7 +98,7 @@ PYTHONPATH=. pytest -q tests
 ```
 
 开发依赖使用 pytest 9.0.3 或更高的 9.x 版本；GitHub Actions 会在 Python
-3.10 和 3.12 上运行同一套检查。
+3.11 和 3.12 上运行同一套检查。
 
 ## 回归验证
 

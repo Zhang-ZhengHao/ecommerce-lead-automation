@@ -17,7 +17,7 @@ The default demo is deterministic and runs without an API key. An OpenAI-compati
   export, human confirmation, sendable-row isolation, usage limits, and the
   synthetic golden fixture.
 - [GitHub Actions](https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/actions/workflows/verify.yml)
-  verifies Python 3.10 and 3.12, compiles the Python sources, and checks the
+  verifies Python 3.11 and 3.12, compiles the Python sources, and checks the
   installed dependency graph.
 - The golden workbook records expectation provenance and deliberately excludes
   unverified examples from classification-accuracy assertions.
@@ -40,8 +40,8 @@ The default demo is deterministic and runs without an API key. An OpenAI-compati
 
 ## Technology
 
-- Python 3.10+
-- Streamlit 1.64
+- Python 3.11+
+- Streamlit 1.66.1
 - pandas 2.2.3
 - openpyxl 3.1.5
 - pytest 9.0.3+ for the test suite
@@ -104,7 +104,7 @@ python -m compileall -q app.py services tests
 python -m pip check
 ```
 
-The GitHub Actions workflow runs these checks on Python 3.10 and 3.12. For the spreadsheet regression fixture alone, run:
+The GitHub Actions workflow runs these checks on Python 3.11 and 3.12. For the spreadsheet regression fixture alone, run:
 
 ```bash
 PYTHONPATH=. python -m pytest -q tests/test_golden_fixture.py
@@ -135,7 +135,7 @@ services/                 import, classification, review, export, and model modu
 examples/demo.csv         synthetic demonstration input
 tests/                    unit and regression tests
 tests/fixtures/           synthetic golden workbook and provenance metadata
-.github/workflows/        Python 3.10/3.12 verification
+.github/workflows/        Python 3.11/3.12 verification
 ```
 
 ## Project inquiries
