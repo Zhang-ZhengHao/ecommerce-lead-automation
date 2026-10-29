@@ -138,6 +138,12 @@ tests/fixtures/           synthetic golden workbook and provenance metadata
 .github/workflows/        Python 3.10/3.12 verification
 ```
 
+## Project inquiries
+
+For a scoped adaptation of this demo, see [current services and project inquiries](https://github.com/Zhang-ZhengHao#work-with-me--项目合作).
+
+The linked GitHub inquiry is public and requires sign-in. Use fictional examples; discuss confidential details and pricing through the freelance platform where you found the project.
+
 ## License
 
 Released under the [MIT License](LICENSE). Release history is recorded in the
