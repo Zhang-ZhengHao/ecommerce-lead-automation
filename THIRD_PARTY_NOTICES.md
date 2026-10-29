@@ -6,7 +6,7 @@ does not relicense them.
 
 | Package | Version constraint | License | Upstream |
 | --- | --- | --- | --- |
-| pandas | 2.2.3 | BSD 3-Clause | <https://github.com/pandas-dev/pandas> |
+| pandas | 3.1.0 | BSD 3-Clause | <https://github.com/pandas-dev/pandas> |
 | openpyxl | 3.1.5 | MIT | <https://foss.heptapod.net/openpyxl/openpyxl> |
 | streamlit | 1.66.1 | Apache-2.0 | <https://github.com/streamlit/streamlit> |
 | pillow | 13.0.0 | MIT-CMU | <https://github.com/python-pillow/Pillow> |

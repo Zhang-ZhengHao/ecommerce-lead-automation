@@ -42,7 +42,7 @@ The default demo is deterministic and runs without an API key. An OpenAI-compati
 
 - Python 3.11+
 - Streamlit 1.66.1
-- pandas 2.2.3
+- pandas 3.1.0
 - openpyxl 3.1.5
 - pytest 9.0.3+ for the test suite
 
