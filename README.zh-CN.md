@@ -47,16 +47,15 @@ PORT=8501 bash start.sh
 
 ### Windows PowerShell
 
-项目要求 Python 3.11 或更高版本，Windows 推荐 Python 3.11/3.12。Windows 不使用 `start.sh`、`source` 或 `python3`。在项目目录打开 PowerShell：
+先用 `py -3 --version` 确认 Python 版本不低于 3.11，再在项目目录运行：
 
 ```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
 ```
 
-如果激活脚本被系统策略拦截，可跳过激活，直接调用 `.\.venv\Scripts\python.exe`。正式交付前仍应在客户的目标 Windows 环境复测安装、启动、上传和导出流程。
+这些命令直接使用虚拟环境中的 Python，无需激活脚本或修改执行策略。打开 `http://localhost:8501` 即可使用离线演示，在 PowerShell 中按 `Ctrl+C` 停止服务。正式交付前仍应在客户的目标 Windows 环境复测安装、启动、上传和导出流程。
 
 如需在 PowerShell 中显式开启真实 AI（请先确认数据合规），环境变量写法是：
 

@@ -59,14 +59,15 @@ PORT=8501 bash start.sh
 
 Open `http://localhost:8501`, choose **载入示例数据** (load sample data), and run the offline demo. The bundled contacts and messages are synthetic.
 
-On Windows PowerShell:
+On Windows PowerShell, check that `py -3 --version` reports Python 3.11 or newer, then run these commands from the project directory:
 
 ```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501
 ```
+
+These commands use the virtual environment directly; activation and execution-policy changes are unnecessary. Open `http://localhost:8501` to use the offline demo. Press `Ctrl+C` in PowerShell to stop the server.
 
 ### Optional model endpoint
 
