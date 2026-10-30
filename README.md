@@ -13,6 +13,8 @@ The default demo is deterministic and runs without an API key. An OpenAI-compati
 
 Preview the [synthetic output example (Chinese)](examples/synthetic-results.md) or [download the draft workbook](https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/raw/refs/heads/main/examples/synthetic-results.xlsx). The sample uses four built-in synthetic messages and offline rules; no final replies have been confirmed.
 
+Follow the [five-minute offline walkthrough (Chinese)](docs/demo-script.md) for the steps to edit and confirm a reply before exporting.
+
 ## Engineering evidence
 
 - The unit and regression suite covers classification, spreadsheet import and
