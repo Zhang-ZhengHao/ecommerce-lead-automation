@@ -8,6 +8,8 @@
 
 ![E-commerce Lead Automation 结果页](screenshots/result.png)
 
+可直接查看[合成结果预览](examples/synthetic-results.md)或[下载草稿工作簿](https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/raw/refs/heads/main/examples/synthetic-results.xlsx)。样例使用内置 4 条合成留言和默认离线规则，最终回复均未人工确认。
+
 ## 五分钟演示
 
 1. 点击“载入示例数据”（示例联系方式是 `demo-contact-001` 这类合成标识，不是真实手机号）。

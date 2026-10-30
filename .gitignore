@@ -13,6 +13,7 @@ exports/
 *.xlsx
 *.xls
 !tests/fixtures/golden.xlsx
+!examples/synthetic-results.xlsx
 .install.lock
 pydeps/
 .asteam-product.log
