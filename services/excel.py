@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import hashlib
+from copy import copy
 from io import BytesIO
+from math import ceil
 from numbers import Integral
 from pathlib import Path
 import re
+from unicodedata import east_asian_width
 
 import pandas as pd
 
@@ -398,7 +401,7 @@ def _validate_export_frame(frame: pd.DataFrame) -> None:
 
 
 def _export_sheets(sheets: dict[str, pd.DataFrame]) -> bytes:
-    """Serialize multiple frames while applying formula-injection protection."""
+    """Export readable sheets while applying formula-injection protection."""
 
     output = BytesIO()
     try:
@@ -408,11 +411,47 @@ def _export_sheets(sheets: dict[str, pd.DataFrame]) -> bytes:
                 _safe_frame(frame).to_excel(
                     writer, index=False, sheet_name=sheet_name
                 )
+                worksheet = writer.sheets[sheet_name]
+                for column in worksheet.columns:
+                    longest = max(_text_width(cell.value) for cell in column)
+                    worksheet.column_dimensions[column[0].column_letter].width = min(
+                        60, max(12, ceil(longest * 1.1) + 2)
+                    )
+                for row in worksheet:
+                    line_count = 1
+                    for cell in row:
+                        alignment = copy(cell.alignment)
+                        alignment.wrap_text = True
+                        alignment.vertical = "top"
+                        cell.alignment = alignment
+                        width = worksheet.column_dimensions[cell.column_letter].width - 2
+                        text = "" if cell.value is None else str(cell.value)
+                        lines = sum(
+                            max(1, ceil(_text_width(line) / width))
+                            for line in text.splitlines()
+                        )
+                        line_count = max(line_count, lines)
+                    worksheet.row_dimensions[row[0].row].height = min(
+                        409, line_count * 18 + 6
+                    )
     except SpreadsheetError:
         raise
     except Exception as error:
         raise SpreadsheetError("导出 Excel 失败，请稍后重试。") from error
     return output.getvalue()
+
+
+def _text_width(value: object) -> int:
+    """Estimate display width for mixed CJK and Latin spreadsheet text."""
+
+    text = "" if value is None else str(value)
+    return max(
+        (
+            sum(2 if east_asian_width(char) in {"F", "W"} else 1 for char in line)
+            for line in text.splitlines()
+        ),
+        default=0,
+    )
 
 
 def _safe_frame(frame: pd.DataFrame) -> pd.DataFrame:
