@@ -3,6 +3,30 @@
 All notable public changes to this project are recorded here. Published tags
 are treated as immutable; corrections use a new patch release.
 
+## [0.2.0] - 2026-11-10
+
+### Added
+
+- A native synthetic lead export sample and a reproducible offline demo path
+  in the documentation.
+- A bilingual public project-inquiry entry in both READMEs.
+
+### Changed
+
+- pandas upgraded from 2.2.3 to 3.1.0, with the third-party notice aligned.
+- GitHub Actions workflows upgraded to actions/checkout v7 and setup-python v7.
+- The Windows quick start now selects the correct Python interpreter.
+
+### Fixed
+
+- Text layout in exported Excel workbooks.
+
+### Security
+
+- The runtime now requires Python 3.11 and a patched Pillow release.
+
+[0.2.0]: https://github.com/Zhang-ZhengHao/ecommerce-lead-automation/releases/tag/v0.2.0
+
 ## [0.1.0] - 2026-10-09
 
 ### Added

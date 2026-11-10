@@ -1,14 +1,14 @@
 from services.version import APP_VERSION, format_release_identity, normalize_build_sha
 
 
-def test_app_version_matches_the_first_release_tag():
-    assert APP_VERSION == "0.1.0"
+def test_app_version_matches_the_latest_release_tag():
+    assert APP_VERSION == "0.2.0"
 
 
 def test_format_release_identity_combines_version_and_normalized_build():
     assert (
         format_release_identity("abcdef1234567890")
-        == "v0.1.0 · build abcdef123456"
+        == "v0.2.0 · build abcdef123456"
     )
 
 
